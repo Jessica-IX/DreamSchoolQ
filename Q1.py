@@ -13,14 +13,15 @@ def minSubsequences(src: str, tar: str) -> int:
     # index before that should not be "not found" but tells where it was found later
     for i in range(26):
         for j in range(len_src-2, -1, -1):
-            occur_index = occurrence[i][j]
-            if (occur_index == not_found):
-                occur_index = occurrence[i][j + 1]
+            if (occurrence[i][j] == not_found):
+                occurrence[i][j] = occurrence[i][j + 1]
 
     i = 0 # index in target
     j = 0 # index in src's subsequence
-    
     while (i < len_tar):
+        if (j >= len_src):
+            j = 0
+            num_sub += 1
         current_char_occur = occurrence[ord(tar[i]) - ord('a')][j]
         # tar has characters src does not have --> task impossible
         if (j == 0 and current_char_occur == not_found):
@@ -29,10 +30,8 @@ def minSubsequences(src: str, tar: str) -> int:
         elif (j < len_src and current_char_occur > not_found) :
             j = current_char_occur + 1
             i += 1
-        # When string formed by adding current character in tar makes it no longer src's subsequence:
-        # 1. j = len_src
-        # 2. curent character in tar does not occur at or after j in src
-        # reset j, increment num_sub since it has to take another number of subsequence if task possible
+
+        # curent character in tar does not occur at or after j in src
         else :
             num_sub += 1
             j = 0
