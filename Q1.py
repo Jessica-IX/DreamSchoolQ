@@ -27,7 +27,7 @@ def minSubsequences(src: str, tar: str) -> int:
         if (j == 0 and current_char_occur == not_found):
             return -1
         # character occurs at j or later in src --> possible element to form subsequence for tar
-        elif (j < len_src and current_char_occur > not_found) :
+        elif (current_char_occur > not_found) :
             j = current_char_occur + 1
             i += 1
 
